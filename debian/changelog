@@ -1,0 +1,5 @@
+golang-logrus (0.6.0-1) UNRELEASED; urgency=medium
+
+  * Initial release.
+			 		 
+ -- Jessie Frazelle <jess@docker.com>  Mon, 05 Jan 2015 16:54:48 -0800
