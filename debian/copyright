@@ -6,6 +6,13 @@ Files: *
 Copyright: 2014 Simon Eskildsen
 License: Expat
 
+Files: terminal_darwin.go
+       terminal_linux.go
+       terminal_notwindows.go
+       terminal_windows.go
+Copyright: 2011-2013 The Go Authors
+License: Expat
+
 Files: debian/*
 Copyright: 2014 Tianon Gravi <admwiggin@gmail.com>,
            2015 Jessie Frazelle <jess@docker.com>
