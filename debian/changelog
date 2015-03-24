@@ -1,8 +1,8 @@
-golang-logrus (0.7.1-1) UNRELEASED; urgency=medium
+golang-logrus (0.7.1-1) unstable; urgency=medium
 
   * Upgrade to 0.7.1.
 
- -- Jessie Frazelle <jess@docker.com>  Tue, 24 Mar 2015 10:34:10 +0000
+ -- Jessie Frazelle <jess@docker.com>  Tue, 24 Mar 2015 17:54:48 -0600
 
 golang-logrus (0.6.0-1) experimental; urgency=medium
 
