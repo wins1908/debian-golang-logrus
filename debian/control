@@ -3,7 +3,7 @@ Section: devel
 Priority: extra
 Maintainer: Jessie Frazelle <jess@docker.com>
 Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>
-Build-Depends: debhelper (>= 9), dh-golang, golang-go
+Build-Depends: debhelper (>= 9), dh-golang, golang-go, golang-testify-dev
 Standards-Version: 3.9.6
 Homepage: https://github.com/Sirupsen/logrus
 Vcs-Git: git://anonscm.debian.org/pkg-go/packages/golang-logrus.git
