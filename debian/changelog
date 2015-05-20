@@ -1,9 +1,9 @@
-golang-logrus (0.7.3-1) UNRELEASED; urgency=medium
+golang-logrus (0.7.3-1) unstable; urgency=medium
 
   * Team upload.
   * Upgrade to 0.7.3.
 
- -- Tianon Gravi <admwiggin@gmail.com>  Wed, 20 May 2015 08:34:07 +0000
+ -- Tianon Gravi <admwiggin@gmail.com>  Wed, 20 May 2015 09:13:56 -0600
 
 golang-logrus (0.7.1-1) unstable; urgency=medium
 
