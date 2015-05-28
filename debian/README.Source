@@ -1,4 +1,7 @@
-This package was debianized as part of the Docker in Debian work. It's been
-packaged in line with the policy that paultag set, so any questions or concerns
-about this (or other packages like it) can be sent to him. If there's an issue,
-of course, please feel free to fix the packaging.
+# update "upstream" branch
+./debian/helpers/update-upstream-branch.sh
+
+# create new "upstream/..." tag
+./debian/helpers/tag-upstream-version.sh # to tag whatever's in d/changelog
+# or ./debian/helpers/tag-upstream-version.sh <version>
+./debian/helpers/tag-upstream-version.sh 1.2.3
