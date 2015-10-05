@@ -7,13 +7,21 @@ Build-Depends: debhelper (>= 9), dh-golang, golang-go, golang-testify-dev
 Standards-Version: 3.9.6
 Homepage: https://github.com/Sirupsen/logrus
 Vcs-Git: git://anonscm.debian.org/pkg-go/packages/golang-logrus.git
-Vcs-Browser: http://anonscm.debian.org/cgit/pkg-go/packages/golang-logrus.git
+Vcs-Browser: https://anonscm.debian.org/cgit/pkg-go/packages/golang-logrus.git
 
-Package: golang-logrus-dev
+Package: golang-github-sirupsen-logrus-dev
 Architecture: all
 Depends: ${misc:Depends}
 Description: Logrus: a logging library for Go
- Logrus is a structured logger for Go (golang), completely 
+ Logrus is a structured logger for Go (golang), completely
  API compatible with the standard library logger.
  .
  This package contains the source.
+
+Package: golang-logrus-dev
+Section: oldlibs
+Architecture: all
+Depends: golang-github-sirupsen-logrus-dev, ${misc:Depends}
+Description: Transitional package for golang-github-sirupsen-logrus-dev
+ This is a transitional package to ease upgrades to the
+ golang-github-sirupsen-logrus-dev package. It can be safely removed.
