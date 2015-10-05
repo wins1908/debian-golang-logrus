@@ -2,12 +2,17 @@ Source: golang-logrus
 Section: devel
 Priority: extra
 Maintainer: Jessie Frazelle <jess@docker.com>
-Uploaders: Docker Packaging Team <docker-maint@lists.alioth.debian.org>
-Build-Depends: debhelper (>= 9), dh-golang, golang-go, golang-testify-dev
+Uploaders: Tianon Gravi <tianon@debian.org>,
+           Debian Go Packaging Team <pkg-go-maintainers@lists.alioth.debian.org>
+Build-Depends: debhelper (>= 9),
+               dh-golang,
+               golang-go,
+               golang-testify-dev | golang-github-stretchr-testify-dev
 Standards-Version: 3.9.6
 Homepage: https://github.com/Sirupsen/logrus
 Vcs-Git: git://anonscm.debian.org/pkg-go/packages/golang-logrus.git
 Vcs-Browser: https://anonscm.debian.org/cgit/pkg-go/packages/golang-logrus.git
+XS-Go-Import-Path: github.com/Sirupsen/logrus
 
 Package: golang-github-sirupsen-logrus-dev
 Architecture: all

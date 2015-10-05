@@ -2,6 +2,8 @@ golang-logrus (0.7.3-2) UNRELEASED; urgency=medium
 
   * Rename binary package to "golang-github-sirupsen-logrus-dev" to be in line
     with pkg-go team policy.
+  * Modify some other minor bits of packaging to be more in line with pkg-go
+    policy/norm.
 
  -- Tianon Gravi <tianon@debian.org>  Mon, 05 Oct 2015 01:19:49 -0700
 
