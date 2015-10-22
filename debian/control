@@ -6,8 +6,11 @@ Uploaders: Tianon Gravi <tianon@debian.org>,
            Debian Go Packaging Team <pkg-go-maintainers@lists.alioth.debian.org>
 Build-Depends: debhelper (>= 9),
                dh-golang,
-               golang-go,
-               golang-testify-dev | golang-github-stretchr-testify-dev
+               golang-github-getsentry-raven-go-dev,
+               golang-github-stretchr-testify-dev,
+               golang-github-stvp-go-udp-testing-dev,
+               golang-github-tobi-airbrake-go-dev,
+               golang-go
 Standards-Version: 3.9.6
 Homepage: https://github.com/Sirupsen/logrus
 Vcs-Git: git://anonscm.debian.org/pkg-go/packages/golang-logrus.git

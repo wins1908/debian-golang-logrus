@@ -1,0 +1,150 @@
+Description: Remove hooks and hook examples that have unpackaged dependencies
+Author: Jessica Frazelle <jess@docker.com>
+Last-Update: 2015-10-22
+Forwarded: not-needed
+Origin: vendor
+
+diff --git a/hooks/bugsnag/bugsnag.go b/hooks/bugsnag/bugsnag.go
+deleted file mode 100644
+index d20a0f5..0000000
+--- a/hooks/bugsnag/bugsnag.go
++++ /dev/null
+@@ -1,68 +0,0 @@
+-package logrus_bugsnag
+-
+-import (
+-	"errors"
+-
+-	"github.com/Sirupsen/logrus"
+-	"github.com/bugsnag/bugsnag-go"
+-)
+-
+-type bugsnagHook struct{}
+-
+-// ErrBugsnagUnconfigured is returned if NewBugsnagHook is called before
+-// bugsnag.Configure. Bugsnag must be configured before the hook.
+-var ErrBugsnagUnconfigured = errors.New("bugsnag must be configured before installing this logrus hook")
+-
+-// ErrBugsnagSendFailed indicates that the hook failed to submit an error to
+-// bugsnag. The error was successfully generated, but `bugsnag.Notify()`
+-// failed.
+-type ErrBugsnagSendFailed struct {
+-	err error
+-}
+-
+-func (e ErrBugsnagSendFailed) Error() string {
+-	return "failed to send error to Bugsnag: " + e.err.Error()
+-}
+-
+-// NewBugsnagHook initializes a logrus hook which sends exceptions to an
+-// exception-tracking service compatible with the Bugsnag API. Before using
+-// this hook, you must call bugsnag.Configure(). The returned object should be
+-// registered with a log via `AddHook()`
+-//
+-// Entries that trigger an Error, Fatal or Panic should now include an "error"
+-// field to send to Bugsnag.
+-func NewBugsnagHook() (*bugsnagHook, error) {
+-	if bugsnag.Config.APIKey == "" {
+-		return nil, ErrBugsnagUnconfigured
+-	}
+-	return &bugsnagHook{}, nil
+-}
+-
+-// Fire forwards an error to Bugsnag. Given a logrus.Entry, it extracts the
+-// "error" field (or the Message if the error isn't present) and sends it off.
+-func (hook *bugsnagHook) Fire(entry *logrus.Entry) error {
+-	var notifyErr error
+-	err, ok := entry.Data["error"].(error)
+-	if ok {
+-		notifyErr = err
+-	} else {
+-		notifyErr = errors.New(entry.Message)
+-	}
+-
+-	bugsnagErr := bugsnag.Notify(notifyErr)
+-	if bugsnagErr != nil {
+-		return ErrBugsnagSendFailed{bugsnagErr}
+-	}
+-
+-	return nil
+-}
+-
+-// Levels enumerates the log levels on which the error should be forwarded to
+-// bugsnag: everything at or above the "Error" level.
+-func (hook *bugsnagHook) Levels() []logrus.Level {
+-	return []logrus.Level{
+-		logrus.ErrorLevel,
+-		logrus.FatalLevel,
+-		logrus.PanicLevel,
+-	}
+-}
+diff --git a/hooks/bugsnag/bugsnag_test.go b/hooks/bugsnag/bugsnag_test.go
+deleted file mode 100644
+index e9ea298..0000000
+--- a/hooks/bugsnag/bugsnag_test.go
++++ /dev/null
+@@ -1,64 +0,0 @@
+-package logrus_bugsnag
+-
+-import (
+-	"encoding/json"
+-	"errors"
+-	"io/ioutil"
+-	"net/http"
+-	"net/http/httptest"
+-	"testing"
+-	"time"
+-
+-	"github.com/Sirupsen/logrus"
+-	"github.com/bugsnag/bugsnag-go"
+-)
+-
+-type notice struct {
+-	Events []struct {
+-		Exceptions []struct {
+-			Message string `json:"message"`
+-		} `json:"exceptions"`
+-	} `json:"events"`
+-}
+-
+-func TestNoticeReceived(t *testing.T) {
+-	msg := make(chan string, 1)
+-	expectedMsg := "foo"
+-
+-	ts := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+-		var notice notice
+-		data, _ := ioutil.ReadAll(r.Body)
+-		if err := json.Unmarshal(data, &notice); err != nil {
+-			t.Error(err)
+-		}
+-		_ = r.Body.Close()
+-
+-		msg <- notice.Events[0].Exceptions[0].Message
+-	}))
+-	defer ts.Close()
+-
+-	hook := &bugsnagHook{}
+-
+-	bugsnag.Configure(bugsnag.Configuration{
+-		Endpoint:     ts.URL,
+-		ReleaseStage: "production",
+-		APIKey:       "12345678901234567890123456789012",
+-		Synchronous:  true,
+-	})
+-
+-	log := logrus.New()
+-	log.Hooks.Add(hook)
+-
+-	log.WithFields(logrus.Fields{
+-		"error": errors.New(expectedMsg),
+-	}).Error("Bugsnag will not see this string")
+-
+-	select {
+-	case received := <-msg:
+-		if received != expectedMsg {
+-			t.Errorf("Unexpected message received: %s", received)
+-		}
+-	case <-time.After(time.Second):
+-		t.Error("Timed out; no notice received by Bugsnag API")
+-	}
+-}
