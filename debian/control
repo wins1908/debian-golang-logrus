@@ -20,8 +20,8 @@ XS-Go-Import-Path: github.com/Sirupsen/logrus
 Package: golang-github-sirupsen-logrus-dev
 Architecture: all
 Depends: ${misc:Depends}
-Replaces: golang-logrus-dev (<< 0.7.3-1~)
-Breaks: golang-logrus-dev (<< 0.7.3-1~)
+Replaces: golang-logrus-dev (<< 0.7.3-2~)
+Breaks: golang-logrus-dev (<< 0.7.3-2~)
 Provides: golang-logrus-dev
 Description: Logrus: a logging library for Go
  Logrus is a structured logger for Go (golang), completely
